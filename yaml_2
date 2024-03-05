@@ -1,0 +1,14 @@
+YAML FOR STAGES THAT DO NOT DEPEND ON EACH OTHER,
+here stage 1 and stage 2 run at the same time
+ 
+pool:
+  vmImage: ubuntu-latest
+ 
+stages:
+  - stage: stage1
+    jobs:
+      - job: jobA
+  - stage: stage3
+    dependsOn: []
+    jobs:
+      - job: jobC

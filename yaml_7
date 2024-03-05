@@ -1,0 +1,11 @@
+BOTH THE JOBS ON DIFFERENT POOLS
+
+stages:
+  - stage: stage1
+    pool:
+     vmImage: ubuntu-latest
+    jobs:
+      - job: A1
+      - job: A2
+        pool: 
+          vmImage: windows-latest

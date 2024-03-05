@@ -1,0 +1,21 @@
+YAML FILE FOR CREATING STAGES WITH 'DEPENDS ON' FEATURE
+here stage 1 will run first, then stage 3 as stage 3 is dependent on stage 1 and at last stage 2 will run
+ 
+trigger:
+  - main
+ 
+pool:
+  vmImage: ubuntu-latest
+ 
+stages:
+  - stage: stage1
+    jobs:
+      - job: jobA
+  - stage: stage2
+    jobs:
+      - job: jobsB
+ 
+  - stage: stage3
+    dependsOn: stage1
+    jobs:
+      - job: jobC

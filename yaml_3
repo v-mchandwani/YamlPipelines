@@ -1,0 +1,26 @@
+YAML FOR STAGES THAT ARE DEPENDENT ON EACH OTHER
+here test will run first, after prod and qa will run at the same time as prod and qa both are dependent on test, at last "last" will run as it is dependent on prod and qa both
+ 
+pool:
+  vmImage: ubuntu-latest
+stages:
+  - stage: test
+    jobs:
+      - job: testjob
+ 
+  - stage: prod
+    dependsOn: test
+    jobs:
+      - job: prodjob
+ 
+  - stage: qa
+    dependsOn: test
+    jobs:
+      - job: qajob
+ 
+  - stage: last
+    dependsOn:
+     - prod
+     - qa
+    jobs:
+      - job: lastjob

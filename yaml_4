@@ -1,0 +1,53 @@
+ADDING CONDITON OF SUCCESS AND FAILURE IN YAML
+here job B will not run as Job A succeeded
+ 
+pool:
+  vmImage: ubuntu-latest
+ 
+stages: 
+    - stage: stage1
+      jobs:
+       - job: A
+ 
+# job B runs if A fails
+ 
+    - stage: stage2
+      condition: failed()
+      jobs:
+      - job: B
+ 
+# job C runs if B succeeds
+    - stage: stage3
+      dependsOn:
+       - stage1
+       - stage2
+      condition: succeeded('B')
+      jobs: 
+       - job: C
+ 
+here stage B will run as stage A failed as we didn't specify the pom.xml file in Maven task
+ 
+pool:
+  vmImage: ubuntu-latest
+ 
+stages:
+  - stage: stageA
+    jobs:
+    - job: jobA
+      steps:
+        - task: Maven@4
+  - stage: stageB
+    condition: failed()
+    jobs:
+    - job: jobB
+ 
+  - stage: stageC
+    dependsOn: 
+      - stageA
+      - stageB
+    condition: succeeded('stageB')
+ 
+    jobs:
+      - job: jobC
+ 
+by specifying condition: always() -> this step will always run even if the pipelines is cancelled
